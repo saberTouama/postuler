@@ -1,0 +1,46 @@
+<p id="id"></p>
+
+
+<h1 id="date"></h1>
+
+
+<img id="img" src="C:\Users\MAS\Desktop\first-app\example\public\storage\images\0RefnqxRmfy1UkevQRd81Gn8BObLPUMBnhG8Da8v.jpg">
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    function mydisplay(text){
+        document.getElementById("id").innerHTML = text;
+        
+ $("#id").css("color","red");
+    }
+    function sum(a,b,func){
+        let sum=a+b;
+        func(sum);
+    }
+    sum(5, 10, mydisplay);
+  
+    setInterval(datefunction,100);
+    function datefunction(){
+        let date =new Date();document.getElementById("date").innerHTML=date.getHours() +":"+date.getMinutes() +":"+date.getSeconds();
+    }
+ var UrlsArray=["c:/Users/MAS/Downloads/footer-logo.png.png","c:/Users/MAS/Downloads/fmilogo.png"]
+    function images(){
+       
+        document.getElementById("img").src=UrlsArray[0];
+
+    }
+    setInterval(function(){
+    for (let i=0; i<UrlsArray.length; i++){
+        setInterval(function(){
+        let img = document.getElementById("img");
+        img.src = UrlsArray[i];},1000
+        );
+    }},1000);
+
+
+        </script>
