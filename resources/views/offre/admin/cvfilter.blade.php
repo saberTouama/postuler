@@ -70,9 +70,10 @@ $workOwnerId = auth()->user()->id;
                         @endif
                     </td>
                     <td class="py-3 px-4">
-                        <x-dropdown-link id="{{$worker_id}}.delete" href="delete-condidate/{{$worker_id}}" class="text-red-500 hover:underline" >
+                        <x-danger-button  x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-condidat-deletion');  document.getElementById('worker_id').value = {{ $worker->id }}; " id="{{$worker_id}}.delete" href="delete-condidate/{{$worker_id}}" class="text-red-500 hover:underline" >
                             {{ __('Delete ❌') }}
-                        </x-dropdown-link>
+                        </x-danger-button>
                     </td>
                 </tr>
                 <script>
@@ -95,3 +96,42 @@ $workOwnerId = auth()->user()->id;
 
 
 </x-app-layout>
+<x-modal name="confirm-condidat-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+    <form method="post" action="/delete-condidate" class="p-6">
+        @csrf
+      @method('post')
+
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Are you sure you want to delete condidator?') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            {{ __('Once  condidator is deleted, all of its resources and data will be permanently deleted.') }}
+        </p>
+
+        <div class="mt-6">
+
+
+            <input
+
+            id="worker_id"
+            name="worker_id"
+            type="hidden"
+            value=""
+
+            />
+
+
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <x-secondary-button x-on:click="$dispatch('close')">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3">
+                {{ __('Delete Condidator') }}
+            </x-danger-button>
+        </div>
+    </form>
+</x-modal>

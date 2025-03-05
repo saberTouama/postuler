@@ -1,5 +1,5 @@
 
-	<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24">
+	{{--<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24">
 		<g fill="none">
 			<path fill="#5eda66" d="M10.788 21.697c4.854 0 8.788-3.799 8.788-8.485s-3.934-8.485-8.788-8.485C5.935 4.727 2 8.526 2 13.212s3.935 8.485 8.788 8.485" />
 			<path fill="#066315" d="M17.758 10.182C20.1 10.182 22 8.418 22 6.242c0-2.175-1.9-3.94-4.242-3.94s-4.243 1.765-4.243 3.94c0 2.176 1.9 3.94 4.243 3.94" />
@@ -9,3 +9,5 @@
 	</svg>
 
 
+--}}
+<img src="{{ asset('images/logo.jpeg') }}" alt="Website Logo" width="80" height="25" class="rounded-full">

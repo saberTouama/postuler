@@ -1,7 +1,9 @@
 
 <x-app-layout>
-    <a href="/" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back
-    </a>
+    <div class=" fixed flex  top-1/4 right-10">
+    <button  x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-tool')" class=" hover:bg-blue-400 hover:text-black  bg-black text-white py-2 px-5 rounded-full flex items-center gap-2" > Add Tool </button>
+    <button class=" hover:bg-blue-400 hover:text-black bg-black text-white py-2 px-5 rounded-full flex items-center gap-2"  x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-catigory')"  > Add Catigory </button></div>
+
     <div class="mx-4 colored lg:grid lg:grid-cols-3 gap-4 space-y-4 md:space-y-0 text-white">
       @foreach($offres as $offre)
 
@@ -184,6 +186,7 @@
 @section('custom_element')
   <div class=" items-center flex justify-center h-screen">
 
+  <x-modal name="add-catigory">
     <x-guest-layout>
       <h1 >Add Catigory</h1>
   <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -223,6 +226,9 @@
       </div>
   </form>
 </x-guest-layout>
+</x-modal>
+
+<x-modal name="add-tool">
 <x-guest-layout>
   <h1 >Add Tools</h1>
   <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -252,6 +258,7 @@
       </div>
   </form>
 </x-guest-layout>
+</x-modal>
 </div>
 @show
 

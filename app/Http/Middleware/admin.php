@@ -18,6 +18,6 @@ class admin
     {
         if(Auth::check() && Auth::user()->role=='admin'){
         return $next($request);}
-        return redirect('/home')->with('eroor','you are not authorized to publish a work offre');
+        return redirect('/dashboard')->with('eroor','you are not authorized to publish a work offre');
     }
 }

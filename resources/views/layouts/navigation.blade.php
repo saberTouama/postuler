@@ -138,7 +138,7 @@
                 @if(Auth::check() && Auth::user()->isworkowner) @php $id=auth()->user()->id @endphp
 
 
-                <div><a title="show condidates for your offers" class="hover:bg-black hover:text-white flex hover:scale-100" href={{route('offre.show',$id)}} ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <div><a title="show condidates for your offers" class="rounded-lg hover:bg-black hover:text-white flex hover:scale-100" href={{route('offre.show',$id)}} ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                         <circle cx="22" cy="24" r="2" fill="currentColor" />
                         <path fill="currentColor" d="M29.777 23.479A8.64 8.64 0 0 0 22 18a8.64 8.64 0 0 0-7.777 5.479L14 24l.223.522A8.64 8.64 0 0 0 22 30a8.64 8.64 0 0 0 7.777-5.478L30 24zM22 28a4 4 0 1 1 4-4a4.005 4.005 0 0 1-4 4M7 17h5v2H7zm0-5h12v2H7zm0-5h12v2H7z" />
                         <path fill="currentColor" d="M22 2H4a2.006 2.006 0 0 0-2 2v24a2.006 2.006 0 0 0 2 2h8v-2H4V4h18v11h2V4a2.006 2.006 0 0 0-2-2" />
@@ -146,25 +146,25 @@
 
 
 
-                <div><a title="view your offers" class="hover:bg-black hover:text-white flex" href={{route('offre.youroffres',$id)}}>  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+                <div><a title="view your offers" class="rounded-lg hover:bg-black hover:text-white flex" href={{route('offre.youroffres',$id)}}>  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M39.546 13.97L19.17 6.553a1.606 1.606 0 0 0-2.058.96h0L7.497 33.928a1.606 1.606 0 0 0 .96 2.058q0 0 0 0l20.377 7.417a1.606 1.606 0 0 0 2.058-.96q0 0 0 0l9.614-26.415a1.606 1.606 0 0 0-.96-2.058q0 0 0 0m-3.194-1.163l.469-2.656a1.606 1.606 0 0 0-1.303-1.86h0L14.163 4.524a1.606 1.606 0 0 0-1.861 1.303h0L7.421 33.51c-.04.227-.03.46.027.682m4.737-27.71H9.003c-.887 0-1.607.72-1.607 1.607v28.109c0 .887.72 1.606 1.607 1.606h4.448M32.25 7.712a1.606 1.606 0 0 0-1.562-1.23h-5.424" />
                 </svg>your  published   offers </a></div>
                 @if (auth()->user()->role=='admin')
                 <div>
-                <a title="Managing Users" class="hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('all-users')}}" > <svg class=  "h-7 w-7" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                <a title="Managing Users" class="rounded-lg hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('all-users')}}" > <svg class=  "h-7 w-7" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
                     <circle cx={10} cy={8} r={2} fill="currentColor" opacity={0.3}></circle>
                     <path fill="currentColor" d="M10 16c0-.34.03-.67.08-.99c-.03-.01-.05-.01-.08-.01c-1.97 0-3.9.53-5.59 1.54c-.25.14-.41.46-.41.81V18h6.29c-.19-.63-.29-1.3-.29-2" opacity={0.3}></path>
                     <path fill="currentColor" d="M4 18v-.65c0-.34.16-.66.41-.81C6.1 15.53 8.03 15 10 15c.03 0 .05 0 .08.01c.1-.7.3-1.37.59-1.98c-.22-.02-.44-.03-.67-.03c-2.42 0-4.68.67-6.61 1.82c-.88.52-1.39 1.5-1.39 2.53V20h9.26c-.42-.6-.75-1.28-.97-2zm6-6c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2s-2-.9-2-2s.9-2 2-2m10.83 6.63l-1.45.49q-.48-.405-1.08-.63L18 11h-2l-.3 1.49q-.6.225-1.08.63l-1.45-.49l-1 1.73l1.14 1c-.03.21-.06.41-.06.63s.03.42.06.63l-1.14 1l1 1.73l1.45-.49q.48.405 1.08.63L16 21h2l.3-1.49q.6-.225 1.08-.63l1.45.49l1-1.73l-1.14-1c.03-.21.06-.41.06-.63s-.03-.42-.06-.63l1.14-1zM17 18c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2"></path>
                 </svg> Manage Users </a></div>
                         <div>
 
-                          <a title="Managing Offers" class="hover:bg-black hover:text-white items-center gap-2 flex" href="{{route('offre.all')}}" class="hover:text-laravel"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
+                          <a title="Managing Offers" class="rounded-lg hover:bg-black hover:text-white items-center gap-2 flex" href="{{route('offre.all')}}" class="hover:text-laravel"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
                             <path fill="currentColor" d="M16 21a5 5 0 1 1 0-10a5 5 0 0 1 0 10m0-8a3 3 0 1 0 0 6a3 3 0 0 0 0-6" className="ouiIcon__fillSecondary"></path>
                             <path fill="currentColor" d="M20 32h-8v-4.06a1 1 0 0 0-1.61-.67l-2.88 2.87l-5.65-5.65l2.87-2.87a.92.92 0 0 0 .2-1a.93.93 0 0 0-.86-.6H0V12h4.06a.92.92 0 0 0 .85-.58a.94.94 0 0 0-.19-1L1.86 7.51l5.65-5.65l2.87 2.87A1 1 0 0 0 12 4.06V0h8v4.06a1 1 0 0 0 1.61.67l2.87-2.87l5.66 5.66l-2.87 2.87a.92.92 0 0 0-.2 1a.93.93 0 0 0 .86.6H32v8h-4.06a.92.92 0 0 0-.85.58a.94.94 0 0 0 .19 1l2.87 2.87l-5.66 5.66l-2.87-2.87a1 1 0 0 0-1.61.67zm-6-2h4v-2.06a3 3 0 0 1 5-2.08l1.46 1.46l2.83-2.83L25.86 23a3 3 0 0 1 2.08-5H30v-4h-2.06a3 3 0 0 1-2.08-5l1.46-1.46l-2.83-2.85L23 6.14a3 3 0 0 1-5-2.08V2h-4v2.06a3 3 0 0 1-5 2.08L7.51 4.69L4.69 7.51L6.14 9a3 3 0 0 1-2.08 5H2v4h2.06a3 3 0 0 1 2.08 5l-1.45 1.49l2.83 2.83L9 25.86a3 3 0 0 1 5 2.08z"></path>
                         </svg> Manage Offers  </a>
                         </div>
                         <div>
-                          <a  title="CS filter CVs and condidators"  class="hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('cvs')}}" class="hover:text-laravel"><svg class="w-5 h-5 xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
+                          <a  title="CS filter CVs and condidators"  class="rounded-lg hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('cvs')}}" class="hover:text-laravel"><svg class="w-5 h-5 xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
                             <path fill="currentColor" d="M15 20H9a3 3 0 0 0-3 3v2h2v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2h2v-2a3 3 0 0 0-3-3m-3-1a4 4 0 1 0-4-4a4 4 0 0 0 4 4m0-6a2 2 0 1 1-2 2a2 2 0 0 1 2-2"></path>
                             <path fill="currentColor" d="M28 19v9H4V8h12V6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-9Z"></path>
                             <path fill="currentColor" d="M20 19h6v2h-6zm2 4h4v2h-4zm10-13V8h-2.101a5 5 0 0 0-.732-1.753l1.49-1.49l-1.414-1.414l-1.49 1.49A5 5 0 0 0 26 4.101V2h-2v2.101a5 5 0 0 0-1.753.732l-1.49-1.49l-1.414 1.414l1.49 1.49A5 5 0 0 0 20.101 8H18v2h2.101a5 5 0 0 0 .732 1.753l-1.49 1.49l1.414 1.414l1.49-1.49a5 5 0 0 0 1.753.732V16h2v-2.101a5 5 0 0 0 1.753-.732l1.49 1.49l1.414-1.414l-1.49-1.49A5 5 0 0 0 29.899 10zm-7 2a3 3 0 1 1 3-3a3.003 3.003 0 0 1-3 3"></path>
@@ -181,7 +181,7 @@
     @if(Auth::check() && Auth::user()->isworkowner) @php $id=auth()->user()->id @endphp
 
         <ul class="flex space-x-6 mr-6 text-lg">
-            <div><a href="{{route('offre.show',$id)}}" title="show condidates for your offers" class="hover:bg-black hover:text-white flex hover:scale-100"  >condidates for your offers<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <div><a href="{{route('offre.show',$id)}}" title="show condidates for your offers" class="rounded-lg hover:bg-black hover:text-white flex hover:scale-100"  >condidates for your offers<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <circle cx="22" cy="24" r="2" fill="currentColor" />
                 <path fill="currentColor" d="M29.777 23.479A8.64 8.64 0 0 0 22 18a8.64 8.64 0 0 0-7.777 5.479L14 24l.223.522A8.64 8.64 0 0 0 22 30a8.64 8.64 0 0 0 7.777-5.478L30 24zM22 28a4 4 0 1 1 4-4a4.005 4.005 0 0 1-4 4M7 17h5v2H7zm0-5h12v2H7zm0-5h12v2H7z" />
                 <path fill="currentColor" d="M22 2H4a2.006 2.006 0 0 0-2 2v24a2.006 2.006 0 0 0 2 2h8v-2H4V4h18v11h2V4a2.006 2.006 0 0 0-2-2" />
@@ -189,7 +189,7 @@
 
 
 
-        <div><a title="view your offers" class="hover:bg-black hover:text-white flex" href={{route('offre.youroffres',$id)}}> your  published   offers <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+        <div><a title="view your offers" class="rounded-lg hover:bg-black hover:text-white flex" href={{route('offre.youroffres',$id)}}> your  published   offers <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M39.546 13.97L19.17 6.553a1.606 1.606 0 0 0-2.058.96h0L7.497 33.928a1.606 1.606 0 0 0 .96 2.058q0 0 0 0l20.377 7.417a1.606 1.606 0 0 0 2.058-.96q0 0 0 0l9.614-26.415a1.606 1.606 0 0 0-.96-2.058q0 0 0 0m-3.194-1.163l.469-2.656a1.606 1.606 0 0 0-1.303-1.86h0L14.163 4.524a1.606 1.606 0 0 0-1.861 1.303h0L7.421 33.51c-.04.227-.03.46.027.682m4.737-27.71H9.003c-.887 0-1.607.72-1.607 1.607v28.109c0 .887.72 1.606 1.607 1.606h4.448M32.25 7.712a1.606 1.606 0 0 0-1.562-1.23h-5.424" />
         </svg> </a></div>
     </ul>
@@ -197,20 +197,20 @@
         @if (Auth::check() && auth()->user()->role=='admin')
 <div class="flex space-x-6 mr-6 text-lg">
         <div>
-        <a title="Managing Users" class="hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('all-users')}}" > Manage Users<svg class=  "h-7 w-7" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+        <a title="Managing Users" class="rounded-lg hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('all-users')}}" > Manage Users<svg class=  "h-7 w-7" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
             <circle cx={10} cy={8} r={2} fill="currentColor" opacity={0.3}></circle>
             <path fill="currentColor" d="M10 16c0-.34.03-.67.08-.99c-.03-.01-.05-.01-.08-.01c-1.97 0-3.9.53-5.59 1.54c-.25.14-.41.46-.41.81V18h6.29c-.19-.63-.29-1.3-.29-2" opacity={0.3}></path>
             <path fill="currentColor" d="M4 18v-.65c0-.34.16-.66.41-.81C6.1 15.53 8.03 15 10 15c.03 0 .05 0 .08.01c.1-.7.3-1.37.59-1.98c-.22-.02-.44-.03-.67-.03c-2.42 0-4.68.67-6.61 1.82c-.88.52-1.39 1.5-1.39 2.53V20h9.26c-.42-.6-.75-1.28-.97-2zm6-6c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2s-2-.9-2-2s.9-2 2-2m10.83 6.63l-1.45.49q-.48-.405-1.08-.63L18 11h-2l-.3 1.49q-.6.225-1.08.63l-1.45-.49l-1 1.73l1.14 1c-.03.21-.06.41-.06.63s.03.42.06.63l-1.14 1l1 1.73l1.45-.49q.48.405 1.08.63L16 21h2l.3-1.49q.6-.225 1.08-.63l1.45.49l1-1.73l-1.14-1c.03-.21.06-.41.06-.63s-.03-.42-.06-.63l1.14-1zM17 18c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2"></path>
         </svg></a></div>
                 <div>
 
-                  <a title="Managing Offers" class="hover:bg-black hover:text-white items-center gap-2 flex" href="{{route('offre.all')}}" class="hover:text-laravel"> Manage Offers <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
+                  <a title="Managing Offers" class=" rounded-lg hover:bg-black hover:text-white items-center gap-2 flex" href="{{route('offre.all')}}" class="hover:text-laravel"> Manage Offers <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
                     <path fill="currentColor" d="M16 21a5 5 0 1 1 0-10a5 5 0 0 1 0 10m0-8a3 3 0 1 0 0 6a3 3 0 0 0 0-6" className="ouiIcon__fillSecondary"></path>
                     <path fill="currentColor" d="M20 32h-8v-4.06a1 1 0 0 0-1.61-.67l-2.88 2.87l-5.65-5.65l2.87-2.87a.92.92 0 0 0 .2-1a.93.93 0 0 0-.86-.6H0V12h4.06a.92.92 0 0 0 .85-.58a.94.94 0 0 0-.19-1L1.86 7.51l5.65-5.65l2.87 2.87A1 1 0 0 0 12 4.06V0h8v4.06a1 1 0 0 0 1.61.67l2.87-2.87l5.66 5.66l-2.87 2.87a.92.92 0 0 0-.2 1a.93.93 0 0 0 .86.6H32v8h-4.06a.92.92 0 0 0-.85.58a.94.94 0 0 0 .19 1l2.87 2.87l-5.66 5.66l-2.87-2.87a1 1 0 0 0-1.61.67zm-6-2h4v-2.06a3 3 0 0 1 5-2.08l1.46 1.46l2.83-2.83L25.86 23a3 3 0 0 1 2.08-5H30v-4h-2.06a3 3 0 0 1-2.08-5l1.46-1.46l-2.83-2.85L23 6.14a3 3 0 0 1-5-2.08V2h-4v2.06a3 3 0 0 1-5 2.08L7.51 4.69L4.69 7.51L6.14 9a3 3 0 0 1-2.08 5H2v4h2.06a3 3 0 0 1 2.08 5l-1.45 1.49l2.83 2.83L9 25.86a3 3 0 0 1 5 2.08z"></path>
                 </svg> </a>
                 </div>
                 <div>
-                  <a  title="CS filter CVs and condidators"  class="hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('cvs')}}" class="hover:text-laravel">CVs Filter<svg class="w-5 h-5 xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
+                  <a  title="CS filter CVs and condidators"  class="rounded-lg hover:bg-black hover:text-white items-center gap-2 flex " href="{{route('cvs')}}" class="hover:text-laravel">CVs Filter<svg class="w-5 h-5 xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
                     <path fill="currentColor" d="M15 20H9a3 3 0 0 0-3 3v2h2v-2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2h2v-2a3 3 0 0 0-3-3m-3-1a4 4 0 1 0-4-4a4 4 0 0 0 4 4m0-6a2 2 0 1 1-2 2a2 2 0 0 1 2-2"></path>
                     <path fill="currentColor" d="M28 19v9H4V8h12V6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2v-9Z"></path>
                     <path fill="currentColor" d="M20 19h6v2h-6zm2 4h4v2h-4zm10-13V8h-2.101a5 5 0 0 0-.732-1.753l1.49-1.49l-1.414-1.414l-1.49 1.49A5 5 0 0 0 26 4.101V2h-2v2.101a5 5 0 0 0-1.753.732l-1.49-1.49l-1.414 1.414l1.49 1.49A5 5 0 0 0 20.101 8H18v2h2.101a5 5 0 0 0 .732 1.753l-1.49 1.49l1.414 1.414l1.49-1.49a5 5 0 0 0 1.753.732V16h2v-2.101a5 5 0 0 0 1.753-.732l1.49 1.49l1.414-1.414l-1.49-1.49A5 5 0 0 0 29.899 10zm-7 2a3 3 0 1 1 3-3a3.003 3.003 0 0 1-3 3"></path>
@@ -219,6 +219,7 @@
             </div>
 
         @endif
+
 
         </div>
 

@@ -11,7 +11,8 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\EmailController2;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CatigoryController;
+use App\Http\Controllers\CategoryController;
+
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -69,7 +70,7 @@ Route::get('/chirp/index', [ChirpController::class, 'index'])->name('chirps.inde
 Route::resource('create', OffreController::class)
     ->middleware('isworkownr');
 
-    Route::get('/delete-condidate/{id}', [WorkerController::class, 'destroy'])->name('worker.destroy');
+    Route::post('/delete-condidate', [WorkerController::class, 'destroy'])->name('worker.destroy');
 
 
 Route::get('/workerindex', [WorkerController::class, 'index'])->name('worker.index');
@@ -121,11 +122,11 @@ Route::middleware([isworkowner::class])->group(function () {
     ->name('publish');
     Route::get('/youroffres/{id}', [OffreController::class, 'display'])->name('offre.youroffres');
     Route::get('/show/{id}', [WorkerController::class, 'mydisplay'])->name('offre.show');
-    Route::get('/accept-condidate/{id}', [WorkerController::class, 'accept'])->name('worker.accept');
+    Route::post('/accept-condidate', [WorkerController::class, 'accept'])->name('worker.accept');
 });
 Route::middleware([admin::class])->group(function () {
     Route::post('add tool',[ToolController::class, 'store'])->name('tool.store');
-    Route::post('add catigory',[CatigoryController::class, 'store'])->name('catigory.store');
+    Route::post('add catigory',[CategoryController::class, 'store'])->name('catigory.store');
     Route::get('/cancel offer/{id}', [OffreController::class, 'cancel'])->name('offre.cancel');
     Route::get('/republish offer/{id}', [OffreController::class, 'republish'])->name('offre.republish');
     Route::get('/manage-offers', [OffreController::class, 'all'])->name('offre.all');

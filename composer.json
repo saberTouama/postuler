@@ -13,10 +13,11 @@
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
         "league/flysystem": "*",
-        "livewire/livewire": "*",
+        "livewire/livewire": "^3.5",
         "mailersend/laravel-driver": "*",
         "predis/predis": "2.0",
         "pusher/pusher-php-server": "*",
+        "spatie/laravel-permission": "^6.16",
         "symfony/http-client": "*",
         "symfony/mailgun-mailer": "*"
     },

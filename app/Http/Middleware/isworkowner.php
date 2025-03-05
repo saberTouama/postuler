@@ -14,10 +14,11 @@ class isworkowner
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         if(Auth::check() && Auth::user()->isworkowner){
             return $next($request);}
-        return redirect('/login')->with('eroor','you are not authorized to publish a work offre');
+            //return url('/Login');
+       return redirect('/profile')->with('eroor','you are not authorized to publish a work offre');
     }
 }

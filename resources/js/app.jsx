@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Mount React component to DOM
 
-console.log('React root is mounted to react component');
+//console.log('React root is mounted to react component');
 console.log("React trying to mount:", reactDiv);
 const reactDiv = document.getElementById('react-app');
 if (reactDiv) {

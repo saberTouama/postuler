@@ -12,7 +12,7 @@ class Chirp extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'message','offer_id',
+        'message','offer_id', 'user_id',
     ];
     protected $dispatchesEvents = [
         'created' => ChirpCreated::class,
@@ -21,5 +21,5 @@ class Chirp extends Model
         return $this->belongsTo(User::class);
 
     }
-    
+
 }

@@ -1,17 +1,17 @@
 <x-app-layout>
     <div>
-        <h2 class="font-semibold ml-20 text-xl text-white leading-tight">
+        <h2 class="font-semibold ml-20 text-xl text-white leading-tight uppercase">
             {{Auth::user()->role;}} {{ __('Dashboard') }}
         </h2>
     </div>
 
     <div class="py-12">
-        
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
-            <div class="bg-green-300 overflow-hidden shadow-sm sm:rounded-lg">
-            
-                
+
+            <div class="bg-blue-300 overflow-hidden shadow-sm sm:rounded-lg">
+
+
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>

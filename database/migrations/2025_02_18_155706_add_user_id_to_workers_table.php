@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->foreignId('catigory_id')->references('id')->on('catigory')->nullable();
+        Schema::table('workers', function (Blueprint $table) {
+          $table->foreignID('user_id')->constrained('id')->on('users')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
+        Schema::table('workers', function (Blueprint $table) {
             //
         });
     }

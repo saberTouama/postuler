@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\tool;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ToolController extends Controller
 {
@@ -20,6 +21,14 @@ class ToolController extends Controller
         $tool->path = $Path;
         $tool->save();
         return redirect()->back()->with('success','Tool added successfully');
+    }
+    public function destroy($id){
+        $tool=tool::find($id);
+        if($tool->path){ 
+            Storage::disk('public')->delete($tool->image);
+        }
+        $tool->delete();
+        return redirect()->back()->with('success','Tool removed successfully');
     }
 
 }

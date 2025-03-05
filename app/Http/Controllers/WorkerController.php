@@ -7,6 +7,7 @@ use App\Models\offreworker;
 use Illuminate\Http\Request;
 use App\Models\work_work_offer;
 //use Illuminate\Queue\Worker;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -41,12 +42,19 @@ class WorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreworkerRequest $request)
+    public function store(Request $request)
     {
-        $request->validate([
-            'email'=>'required|string|max:255',
-            'name'=>'required|string|max:255',
 
+
+      $request->validate([
+            'Cemail'=>'required|string|max:255',
+            'Cname'=>'required|string|max:4',
+           'user_id' => [
+        'required',
+        Rule::unique('workers')->where(function ($query) use ($request) {
+            return $query->where('concernedoffre', $request->concernedoffre);
+        }),
+    ], 'concernedoffre'=>'required',
             'hire_date'=>'required|date',
 'cv' => 'required|file|mimes:pdf,doc,docx|max:2048'
 
@@ -58,17 +66,19 @@ class WorkerController extends Controller
             // Store the file in the 'public/cv' directory
             $filePath = $request->file('cv')->store('cvs', 'public');}
         $worker = new worker();
-        $worker->email = $request->input('email');
-        $worker->name = $request->input('name');
+        $worker->email = $request->input('Cemail');
+        $worker->name = $request->input('Cname');
 
         $worker->hire_date = $request->input('hire_date');
         $worker->cv_path = $filePath;
         $worker->concernedoffre=$request->input('concernedoffre');
+        $worker->user_id=$request->user_id;
+
         $worker->save();
 
 
 
-        return redirect()->back();
+       // return redirect()->back();
     }
     public function applyForOffer(Request $request)    {
         // Validate the incoming request data
@@ -141,12 +151,13 @@ class WorkerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy( Request $request)
     {
+        $id=$request->worker_id;
     $worker=worker::find($id);
-    $offer=offre::find($worker->concernedoffre);
+   // $offer=offre::find($worker->concernedoffre);
     //$offer=Offre::find($worker->concernedoffre);
-    Gate::authorize('delete', $worker);
+   // Gate::authorize('delete', $worker);
    // Notification::route('mail', $worker->email)->notify(new CondidatRejected($offer));
     if ($worker->cv_path) {
         Storage::disk('public')->delete($worker->cv_path);
@@ -162,7 +173,8 @@ class WorkerController extends Controller
         $condidat->save();
         return redirect()->back();
     }
-    public function accept($id){
+    public function accept(Request $request){
+        $id=$request->id;
         $condidat=worker::find($id);
         $condidat->status='accepted';
         $condidat->save();

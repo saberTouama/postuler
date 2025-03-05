@@ -49,6 +49,12 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="employer" :value="__('Register as Employer (this is important to publish job offers) ')" />
+            <input id="employer" name="employer" type="checkbox" class="mt-1 rounded-lg w-20" :value="1"  autofocus  />
+
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -67,8 +73,8 @@
 
     {{--@if(Auth::check() && Auth::user()->isworkowner) @php $id=auth()->user()->id @endphp
         <li><a href={{route('offre.show',$id)}}           target="_blank">show condidates for your offres </a></li>
-       
+
         <li><a href={{route('offre.youroffres',$id)}}           target="_blank"> your  published   offres </a></li>
         @endif--}}
-        
+
 </section>

@@ -60,7 +60,8 @@
 
 
         <label>recommanded skills</label>
-        <textarea
+        <textarea  x-model="form.description"
+    @keydown.enter.prevent="$event.target.value += '\n'"
         name="skills"
         placeholder="{{ __('') }}"
         class="block w-full border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm border-0 border-b-2  hover:bg-gray-400 bg-transparent "
@@ -71,6 +72,8 @@
        <label for="works">responsabilities  </label>
 
        <textarea
+        x-model="form.description"
+    @keydown.enter.prevent="$event.target.value += '\n'"
        name="works"
        placeholder="{{ __('') }}"
        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm border-0 border-b-2  hover:bg-gray-400 bg-transparent "
@@ -79,7 +82,8 @@
        </textarea>
        <br><br>
        <label>important notes  </label>
-       <textarea
+       <textarea  x-model="form.description"
+    @keydown.enter.prevent="$event.target.value += '\n'"
        name="points"
        placeholder="{{ __('') }}"
        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm  border-0 border-b-2  hover:bg-gray-400 bg-transparent"

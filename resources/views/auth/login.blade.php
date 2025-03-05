@@ -1,5 +1,5 @@
 <?php   use Illuminate\Support\Facades\Route;?>
-<x-app-layout>
+
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -47,4 +47,3 @@
         </div>
     </form>
 </x-guest-layout>
-</x-app-layout>

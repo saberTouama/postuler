@@ -8,12 +8,16 @@ use Illuminate\Http\RedirectResponse;
 
 class EmailController2 extends Controller
 {
-    
+
     public function store(Request $request): RedirectResponse{
+        $request->validate([
+    'not_email'=>'unique:emails,email']
+        );
  $Email=new email();
-  $Email->email=$request->email;
+
+  $Email->email=$request->not_email;
   $Email->save();
  return redirect()->back();
-  
+
     }
 }
