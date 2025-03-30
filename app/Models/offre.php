@@ -14,7 +14,7 @@ class offre extends Model
         'tools' => 'array',
     ];
     protected $fillable = ['description',
-'titre', 'company', 'lieu', 'nb_post', 'site','tool1','tool2','tool3','tool4','works','skills','points'
+'titre', 'company', 'lieu', 'nb_post', 'site','tool1','tool2','tool3','tool4','works','skills','points','longitude','latitude'
     ];
     public function workowner()
     {

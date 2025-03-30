@@ -17,7 +17,7 @@
 @endsection
 @yield('form')
 @section('offers')
-            <div class="mt-6  shadow-sm rounded-lg divide-y" wire:poll.1s>
+            <div class="mt-6  shadow-sm rounded-lg divide-y" wire:poll.4s>
                 @foreach ($chirps as $chirp)
                     <div class="p-6 flex space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

@@ -48,7 +48,7 @@ class WorkerController extends Controller
 
       $request->validate([
             'Cemail'=>'required|string|max:255',
-            'Cname'=>'required|string|max:4',
+            'Cname'=>'required|string|max:128',
            'user_id' => [
         'required',
         Rule::unique('workers')->where(function ($query) use ($request) {
@@ -154,7 +154,9 @@ class WorkerController extends Controller
     public function destroy( Request $request)
     {
         $id=$request->worker_id;
+
     $worker=worker::find($id);
+
    // $offer=offre::find($worker->concernedoffre);
     //$offer=Offre::find($worker->concernedoffre);
    // Gate::authorize('delete', $worker);

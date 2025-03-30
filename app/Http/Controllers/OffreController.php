@@ -180,16 +180,12 @@ public function home(){
             $offre->save();
             $userId=Auth::user()->id;
             $users = User::where('notified',true)->get();
-
-
            foreach ($users as $user) {
            $user->notify(new OffreNotification($offre));
            }
-           $emails=email::select('email');
-
-foreach($emails as $email){
-    Notification::route('mail', $email)->notify(new OffreNotification($offre));
-}
+    $emails=email::select('email');
+    foreach($emails as $email){
+    Notification::route('mail', $email)->notify(new OffreNotification($offre));}
            event(new JobOfferCreated($offre));
 
 
@@ -263,6 +259,8 @@ foreach($emails as $email){
             'tool3' => 'sometimes|string',
             'category_id' => 'sometimes|integer',
             'tools' => 'sometimes|array',
+             'longitude'=>'sometimes',
+             'latitude'=>'sometimes'
         ]);
         Gate::authorize('update', $offre);
 

@@ -148,7 +148,7 @@
         </div>
 
                 <div class="flex  w-1/4 rounded-lg justify-end hover:bg-gray-800 px-0">
-                    @livewire('chirps')
+                 @livewire('chirps')
 
         </div>
         <x-modal name="chirps">     @include('chirps.index')

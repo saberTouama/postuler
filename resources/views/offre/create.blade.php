@@ -13,7 +13,7 @@
         </div>
     @php $id=auth()->user()->id;@endphp
 
-  <form method="POST"  class="mr-20 ml-20 bg-blue-300 sm:rounded-lg   w-screen  sm:w-auto px-4  shadow-2xl ring-4"  action="{{route('offre.store')}}" enctype="multipart/form-data" >
+  <form method="POST"  class="mr-20 ml-20 bg-blue-300 sm:rounded-lg  z-50 w-screen  sm:w-auto px-4  shadow-2xl ring-4"  action="{{route('offre.store')}}" enctype="multipart/form-data" >
         @csrf
      <div class="lg:grid lg:grid-cols-2 sm:grid-cols-1  justify-between gap-10">
         <div>
@@ -316,7 +316,7 @@
             // Add/update marker
             if (marker) marker.setMap(null);
             marker = new google.maps.Marker({
-                position: { lat, lng },
+                position: { lat,lng },
                 map: map
             });
         });
