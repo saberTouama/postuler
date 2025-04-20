@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use PhpParser\Builder\TraitUse;
 use Symfony\Component\HttpFoundation\Response;
- 
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,16 +26,13 @@ class AuthenticatedSessionController extends Controller
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
-        // Call authenticate method to handle authentication
         $request->authenticate();
-    
-        // Regenerate session to prevent session fixation
+
         $request->session()->regenerate();
-    
-        // Pass the request to the next middleware or controller
-    return redirect()->intended(route('dashboard', absolute: false));
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
@@ -74,5 +71,5 @@ class AuthenticatedSessionController extends Controller
         $user->save();
         return redirect()->back();
     }
-    
+
 }

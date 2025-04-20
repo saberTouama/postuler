@@ -1,6 +1,6 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
 
-<nav x-data="{ open: false }" class="bg-blue-400  border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-blue-100 border-b border-gray-100">
 
 
 
@@ -134,7 +134,7 @@
                     </svg>{{ __('Home') }}
                 </x-nav-link>
             </div>
-        
+
             <div>
                 @if(Auth::check() && Auth::user()->isworkowner) @php $id=auth()->user()->id @endphp
 
@@ -214,8 +214,14 @@
             </div>
 
         @endif
-
-
+        @auth
+          <div>
+@include('notifications')
+                 </div>
+                 @endauth
+                 <div>
+@include('mode')
+                 </div>
         </div>
 
 </nav>

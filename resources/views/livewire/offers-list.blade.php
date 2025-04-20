@@ -1,5 +1,5 @@
 <div>
-
+    <x-app-layout>
     <style>
         img:hover {
             transform: scale(1.2);
@@ -102,7 +102,7 @@
 
 
 
- <div id="work-offers-list" class="mx-4 colored lg:grid lg:grid-cols-4 gap-4 space-y-4 md:space-y-0 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5  grid grid-cols-auto-fit " wire:poll.5s>
+ <div id="work-offers-list" class="mx-4 colored lg:grid lg:grid-cols-4 gap-4 space-y-4 md:space-y-0 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5  grid grid-cols-auto-fit " wire:poll.1s>
 
       @foreach($offres as $offre)
 
@@ -234,58 +234,14 @@
         </x-card>
 
       @endforeach
+        </div>
 
-
-
-    </div>
     <div class="items-center flex  justify-center h-screen">
-    {{ $offres->links() }}</div>
+        {{ $offres->links() }}
+   </div>
 
  <br><br><br><br>
  <br><br><br><br>
  <br><br><br><br>
- <script>
-    // Ensure the DOM is fully loaded before running the script
-    document.addEventListener('DOMContentLoaded', () => {
-        // Check if window.Echo is properly initialized
-        if (typeof window.Echo === 'undefined') {
-            console.error('Echo is not initialized. Check your setup.');
-            return;
-        }
-
-        console.log('Echo instance:', window.Echo);
-
-        // Subscribe to the channel
-        window.Echo.channel('my-channel')
-            .listen('.JobOfferCreated', (e) => {
-                console.log('New offer created:', e.offer);
-
-                // Ensure the offer has a valid structure
-                if (!e.offer || !e.offer.titre) {
-                    console.error('Invalid event data:', e);
-                    return;
-                }
-
-                // Append the new offer to the list
-                const offersList = document.getElementById('work-offers-list');
-                if (!offersList) {
-                    console.error('Element with ID "work-offers-list" not found.');
-                    return;
-                }
-
-                const newOffer = document.createElement('div');
-                newOffer.textContent = e.offer.titre;
-                offersList.appendChild(newOffer);
-            });
-    });
-</script>
-
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- الخاص بنا React تحميل مكون. -->
-  <script src="C:\Users\MAS\Desktop\first-app\example\resources\js\like_button.js"></script>
-
-
-
+</x-app-layout>
 </div>

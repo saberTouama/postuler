@@ -3,9 +3,11 @@
 
 
 <x-app-layout>
-  <script src="{{ asset('js\components\Chirp.jsx') }}"></script>
+
+
+
   @php session(['offre_id' => $offre->id]); @endphp
-      <div class="mx-4 sm:justify-center items-center pt-6 px-10 w-full  border  text-gray-200 rounded-lg shadow-lg" tyle="border-radius: 10px;">
+      <div class="mx-4 sm:justify-center items-center pt-6 px-10 w-full text-gray-800 dark:text-gray-400  border   rounded-lg shadow-lg" tyle="border-radius: 10px;">
        @auth <button   x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'postuler') "class="fixed hover:bg-blue-400 hover:text-black top-1/4 right-10 bg-black text-white py-2 px-5 rounded-full flex items-center gap-2"><svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M5 15.747V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.253m-6.798-9.83v8.5m3.344-6.15L12.202 5L8.858 8.267"></path>
@@ -40,7 +42,7 @@
         </div>
    <div>
 
-       <div  class=" justify-center flex " > <small class="ml-2 text-sm text-gray-200 flex gap-2 items-center "> <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 2048 2048">
+       <div  class=" justify-center flex " > <small class="ml-2 text-sm text-gray-400 flex gap-2 items-center "> <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 2048 2048">
           <path fill="currentColor" d="M1792 993q60 41 107 93t81 114t50 131t18 141q0 119-45 224t-124 183t-183 123t-224 46q-91 0-176-27t-156-78t-126-122t-85-157H128V128h256V0h128v128h896V0h128v128h256zM256 256v256h1408V256h-128v128h-128V256H512v128H384V256zm643 1280q-3-31-3-64q0-86 24-167t73-153h-97v-128h128v86q41-51 91-90t108-67t121-42t128-15q100 0 192 33V640H256v896zm573 384q93 0 174-35t142-96t96-142t36-175q0-93-35-174t-96-142t-142-96t-175-36q-93 0-174 35t-142 96t-96 142t-36 175q0 93 35 174t96 142t142 96t175 36m64-512h192v128h-320v-384h128zM384 1024h128v128H384zm256 0h128v128H640zm0-256h128v128H640zm-256 512h128v128H384zm256 0h128v128H640zm384-384H896V768h128zm256 0h-128V768h128zm256 0h-128V768h128z" />
         </svg>{{ $offre->created_at->format('j M Y, g:i a') }}</small>
                                 @unless ($offre->created_at->eq($offre->updated_at))
@@ -233,9 +235,24 @@
     <div>
         <x-input-label for="hire_date" :value="__('hire date')" />
         <x-text-input id="hire_date" class="block mt-1 w-full" type="date" name="hire_date" :value="old('hire_date')" required autofocus autocomplete="hire_date" /> </div>
-   <div class="flex"> <x-text-input type="file" id="cv" class="mt-4 rounded-full bg-white" name="cv" placeholder="your  cv" accept=".pdf,.doc,.docx" required />  <svg class="w-7 h-7 rounded-full" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
-        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M5 15.747V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.253m-6.798-9.83v8.5m3.344-6.15L12.202 5L8.858 8.267"></path>
-      </svg> </div><br><br>
+        <div class="mt-4">
+            <label for="cv" class="block text-sm font-medium text-gray-700 mb-1">Upload your CV</label>
+            <x-text-input
+                type="file"
+                id="cv"
+                name="cv"
+                accept=".pdf,.doc,.docx"
+                class="mt-1 block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-blue-700
+                                  hover:file:bg-blue-100"
+                required
+            />
+            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, DOC, DOCX. Max size: 2MB.</p>
+        </div>
+        <br><br>
     <script>
         document.getElementById('cv').addEventListener('change', function(event) {
             var file = event.target.files[0];
@@ -278,4 +295,21 @@
 
 
   </x-modal>
+  <x-modal name="seccess"  x-data=""  :show="session('success')">
+
+    <div class="p-6 bg-green-50 border border-green-200 rounded-lg shadow-md">
+        <div class="flex items-center space-x-3">
+            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M5 13l4 4L19 7"/>
+            </svg>
+            <h2 class="text-green-700 font-semibold text-7xl">Success✔</h2>
+        </div>
+        <p class="mt-3 text-3xl text-green-600">
+            {{ session('success') ?? 'Opération effectuée avec succès.' }}
+        </p>
+    </div>
+  </x-modal>
+
 @endauth

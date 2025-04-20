@@ -13,6 +13,7 @@ use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -22,14 +23,35 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-//use Illuminate\Support\Facades\Redis;
-// routes/web.php
+Route::get('/test-cv-hf', function () {
+    $cv = <<<EOT
+John Doe is a backend developer with 5 years of experience in PHP, Laravel, MySQL, and RESTful APIs.
+He has built and maintained Laravel apps and used Docker and Livewire.
+EOT;
 
+    $job = <<<EOT
+We are hiring a Laravel backend developer with 3+ years of experience in PHP, MySQL, and API development.
+EOT;
 
+    $payload = [
+        "inputs" => "Candidate CV: $cv\n\nJob Description: $job",
+        "parameters" => [
+            "candidate_labels" => ["match", "not_match", "neutral"]
+        ]
+    ];
 
-//Route::view('/{path?}', 'react')->where('path', '.*');
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . env('HF_API_KEY'),
+    ])->post("https://api-inference.huggingface.co/models/facebook/bart-large-mnli", $payload);
 
-//Auth::routes();
+    $data = $response->json();
+
+    if (isset($data['error'])) {
+        return "<h3>❌ Error:</h3><pre>" . json_encode($data['error'], JSON_PRETTY_PRINT) . "</pre>";
+    }
+
+    return view('cv-result', ['data' => $data]);
+});
 Route::get('/mailing', [EmailController2::class,'store'])->name('mailing');
 
 Route::get('/chat2',function(){
@@ -108,7 +130,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/chirp/edit/{chirp}', [ChirpController::class, 'edit'])->name('chirps.edit');
 Route::patch('/chirp/update/{chirp}', [ChirpController::class, 'update'])->name('chirps.update');
 Route::post('/chirp/destroy/{chirp}', [ChirpController::class, 'destroy'])->name('chirps.destroy');
-
+Route::get('/notifications', function () {
+    return view('notifications');
+});
+Route::get('/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
 Route::middleware([isworkowner::class])->group(function () {

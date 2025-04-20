@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->foreignId('work_owner_id')->nullable()->constrained('workowners')->onDelete('cascade');
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -21,9 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->dropForeign(['work_owner_id']);
-            $table->dropColumn('work_owner_id');
-        });
+        Schema::dropIfExists('notifications');
     }
 };

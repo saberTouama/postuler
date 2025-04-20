@@ -78,7 +78,7 @@
 
  <form class="hover:bg-white" method="get" action="{{route('cvs')}}">
 <input type="hidden" name="offer_id" value="{{$id}}">
-<input class="text-gray-300 hover:bg-white" type="submit" value="condidators">
+<input class="text-gray-300 hover:bg-white" type="submit" value="candidates">
  </form>
 
 

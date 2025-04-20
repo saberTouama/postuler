@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->foreignId('workowner')->nullable()->constrained('users')->onDelete('cascade');;
-    });
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->foreignId('user_id')
+            ->nullable()
+            ->constrained('users')
+            ->cascadeOnDelete();
+        });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->dropColumn('workowner');
+        Schema::table('notifications', function (Blueprint $table) {
+            //
         });
     }
 };

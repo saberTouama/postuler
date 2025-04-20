@@ -285,7 +285,22 @@
             });
         });
     </script>--}}
+    <x-modal name="seccess"  x-data=""  :show="session('success')">
 
+        <div class="p-6 bg-green-50 border border-green-200 rounded-lg shadow-md">
+            <div class="flex items-center space-x-3">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+                <h2 class="text-green-700 font-semibold text-7xl">Success✔</h2>
+            </div>
+            <p class="mt-3 text-3xl text-green-600">
+                {{ session('success') ?? 'Opération effectuée avec succès.' }}
+            </p>
+        </div>
+      </x-modal>
 </x-app-layout>
 <script>
     $('#title').html('Publish Job Offer');

@@ -28,7 +28,7 @@ class CondidatRejected extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -50,7 +50,8 @@ class CondidatRejected extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+           'message' => 'Your postulation is rejected  in the offer : ' . $this->offer->titre,
+            'offer_id' => $this->offer->id,
         ];
     }
 }

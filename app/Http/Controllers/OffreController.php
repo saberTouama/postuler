@@ -8,11 +8,12 @@ use App\Models\email;
 use App\Models\offre;
 use App\Events\MyEvent;
 
+use App\Jobs\sendEmail;
 use App\Models\category;
 use App\Models\catigory;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Events\JobOfferCreated;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -179,18 +180,13 @@ public function home(){
 
             $offre->save();
             $userId=Auth::user()->id;
-            $users = User::where('notified',true)->get();
-           foreach ($users as $user) {
-           $user->notify(new OffreNotification($offre));
-           }
-    $emails=email::select('email');
-    foreach($emails as $email){
-    Notification::route('mail', $email)->notify(new OffreNotification($offre));}
+           sendEmail::dispatch($offre)->onQueue('emails-sending');;
            event(new JobOfferCreated($offre));
 
 
         }
-        return redirect('/#'.$offre->id);
+       // return redirect('/#'.$offre->id);
+       return redirect()->back()->with('success','offer created seccessfuly');
     }
 
 

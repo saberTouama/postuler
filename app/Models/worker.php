@@ -12,8 +12,10 @@ class worker extends Model
     protected $table = 'workers';
 
     // The attributes that are mass assignable.
-    protected $fillable = ['position','name','hire_date','cv_path','concernedoffre'];
-
+    protected $fillable = ['position','name','hire_date','cv_path','concernedoffre','AI_label'];
+    public function offre(){
+        return $this->belongsTo(offre::class,'concernedoffre');
+    }
 
 
 }

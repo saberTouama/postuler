@@ -8,7 +8,8 @@ use Livewire\Component;
 use App\Models\category;
 use Livewire\WithPagination;
 class OffersList extends Component
-{
+{    use WithPagination;
+
     public $search = '';
     public $category='';
     public $region='';
@@ -48,7 +49,7 @@ class OffersList extends Component
 
 
         // Pass the work offers to the view
-       ;
+
         return view('livewire.offers-list', [
            'offres'=>$offres,'catigories'=>$catigories
         ])->extends('layouts.app');

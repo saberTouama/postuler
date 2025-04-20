@@ -16,9 +16,10 @@ class isworkowner
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->isworkowner){
+        if(Auth::check() and Auth::user()->isworkowner){
             return $next($request);}
             //return url('/Login');
-       return redirect('/profile')->with('eroor','you are not authorized to publish a work offre');
+
+        return redirect('/login');
     }
 }

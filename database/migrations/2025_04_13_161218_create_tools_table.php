@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('workers', function (Blueprint $table) {
-          $table->foreignID('user_id')->constrained('id')->on('users')->nullable();
+        Schema::create('tools', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('path');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('workers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('tools');
     }
 };

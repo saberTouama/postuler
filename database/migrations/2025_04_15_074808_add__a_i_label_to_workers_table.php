@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-           $table->enum('role',['admin','user','workowner'])->default('user');
+        Schema::table('workers', function (Blueprint $table) {
+            $table->enum('AI_label',["match", "not_match", "neutral"])->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('workers', function (Blueprint $table) {
             //
         });
     }

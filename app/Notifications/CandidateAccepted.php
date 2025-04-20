@@ -8,17 +8,17 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class OffreNotification extends Notification
+class CandidateAccepted extends Notification
 {
     use Queueable;
+    public $offer;
 
-    protected $offre;
     /**
      * Create a new notification instance.
      */
-    public function __construct(offre $offre )
+    public function __construct(offre $offer)
     {
-       $this->offre=$offre;
+      $this->offer=$offer;
     }
 
     /**
@@ -28,25 +28,18 @@ class OffreNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-
-            return ['mail']; // Use 'broadcast' for real-time notifications
-
-
+        return ['database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-
     public function toMail(object $notifiable): MailMessage
-    { $offre=$this->offre;
-
+    {
         return (new MailMessage)
-                    ->line('A new Job offre published for : '.$this->offre->titre)
-                    ->action('View offre details', url('/offre-detaille/'.$this->offre->id))
-                    ->line('Can be Your dream job!')
-                    ->view('offre.offerMail', compact('offre')); // Ble view for the email content
-                  //  ->with(['offre' => $this->offre]); // Pass data to the view
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -57,7 +50,8 @@ class OffreNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-
+          'message' => 'You are accepted in the offer : ' . $this->offer->titre,
+            'offer_id' => $this->offer->id,
         ];
     }
 }
