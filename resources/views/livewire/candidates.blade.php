@@ -2,6 +2,7 @@
 
     @use ('Illuminate\Support\Facades\DB')
     <x-app-layout>
+
     @section('users') @endsection
 
 
@@ -13,16 +14,10 @@
 
     $workOwnerId = auth()->user()->id;
 
-    /*$workers = DB::table('workers')
-        ->whereIn('concernedoffre', function ($query) use ($workOwnerId) {
-            $query->select('id')
-                  ->from('offres')
-                  ->where('workowner', $workOwnerId);
-        })
-        ->get();*/
+
 
         @endphp
-       {{-- @extends('layouts.app')--}}
+
 
        <div class="sm:justify-center items-center pt-6 px-10" style="border-radius: 10px" wire:poll.1s >
         <table class="w-full bg-white border border-gray-300 text-gray-700 rounded-lg shadow-lg border-separate ">
@@ -73,7 +68,7 @@
                         </td>
                         <td>{{$worker->AI_label}}</td>
                         <td class="py-3 px-4">
-                            <x-danger-button wire:click="confirmDelete({{ $worker->id }}); $dispatch('open-modal','confirm-condidat-deletion');"
+                            <x-danger-button wire:click="confirmDelete({{ $worker->id }});"
 
                                 class="text-red-500 hover:underline">
                                 {{ __('Delete ❌') }}
@@ -83,29 +78,30 @@
 
                     </tr>
                                     @endforeach
+
+
+                                    <x-danger-button wire:click.prevent="deleteWorker"
+                                        class="fixed ml-4 transition-all duration-300 ease-in-out
+                                          right-10
+                                               enabled:hover:bg-red-700 enabled:hover:shadow-lg
+                                               disabled:hidden
+               disabled:opacity-60 disabled:cursor-not-allowed
+               disabled:bg-gray-400 disabled:text-gray-700
+               disabled:border-gray-400 disabled:hover:shadow-none " :disabled="$deleteDesabled">
+                                        {{ __('Confirm Delete ❌') }}
+                                    </x-danger-button>
+
             </tbody>
         </table>
 
-
         <br><br><br><br><br><br><br><br><br>
-      <script>
-        $('#title').html('CV filter');
-      </script>
 
-<x-modal name="confirm-condidat-deletion" wire:show="showModal" >
+<x-modal x-data="" name="confirm-condidat-deletion" >
+<div class="mx-5 my-5">
 
 
-    <h2 class="text-lg font-medium text-gray-900">
-        {{ __('Are you sure you want to delete candidate?') }}
-    </h2>
 
-    <p class="mt-1 text-sm text-gray-600">
-        {{ __('Once candidate is deleted, all of its resources and data will be permanently deleted.') }}
-    </p>
 
-    <div class="mt-6">
-
-    </div>
 
     <div class="mt-6 flex justify-end">
         <x-secondary-button x-on:click="$dispatch('close')">
@@ -116,8 +112,11 @@
             {{ __('Delete Candidate') }}
         </x-danger-button>
     </div>
-
+</div>
 </x-modal>
+</div>
+<div class="mt-8">
+    {{ $workers->links() }}
 </div>
     </x-app-layout>
 

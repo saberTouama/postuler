@@ -22,7 +22,11 @@
         </div>
 
         <br><br>
-
+     <div>
+        <x-input-label for="phone" :value="__('Your phone')" ></x-input-label>
+        <x-text-input name="phone" type="text" autofocus  autocomplete="phone"></x-text-input>
+        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+     </div>
         <div>
             <x-input-label for="Cname" :value="__('Name')" />
             <x-text-input id="Cname" class="block mt-1 w-full" type="text" name="Cname" value="{{ old('Cname') }}" required autofocus autocomplete="name" />
@@ -49,7 +53,7 @@
 
 
 
-            <input type="hidden" name="concernedoffre" value="{{$offre>$id}}">
+            <input type="hidden" name="concernedoffre" value="{{$id}}">
 
             <x-primary-button class="mt-4">{{ __('SUBMIT') }}</x-primary-button>
 

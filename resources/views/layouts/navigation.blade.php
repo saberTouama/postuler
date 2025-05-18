@@ -1,6 +1,6 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
 
-<nav x-data="{ open: false }" class="bg-blue-100 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-blue-100 border-b dark:bg-gray-700 border-gray-100">
 
 
 

@@ -94,7 +94,7 @@
             <img class="w-48 mr-6 mb-6"
             src="{{$offre->image? asset('storage/' . $offre->image) : asset('/images/no-image.png')}}" alt="" />
 
-          <h3 class="text-2xl mb-2">
+          <h3 class="text-2xl mb-2 text-slate-400">
             {{$offre->titre}}
           </h3>
           <div class="text-xl font-bold mb-4">{{$offre->company}}</div>

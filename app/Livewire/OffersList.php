@@ -22,7 +22,7 @@ class OffersList extends Component
 
     public function render()
     {
-        $query = Offre::where('state', 'published');
+        $query = Offre::select('id','workowner','titre','lieu','company','image','created_at','updated_at')->where('state', 'published');
         if (!empty($this->search)) {
             $query->where('titre', 'like', '%' . $this->search . '%');
         }
@@ -33,22 +33,9 @@ class OffersList extends Component
             $query->where('lieu',$this->region);
         }
         $catigories=category::all();
-       /* if ($request->has('category') && $request->category != '') {
 
-            $offres=Offre::where('category_id', $request->category)->paginate(10);
-            return view('offre.home', ['offres'=>$offres,'catigories'=>$catigories]);
-        }
-        if ($request->has('region') && $request->region != '') {
-
-
-            $offres=Offre::where('lieu', $request->region)->paginate(10);
-            return view('offre.home', ['offres'=>$offres,'catigories'=>$catigories]);
-        }*/
         $offres = $query->orderBy('created_at', 'desc')->paginate(10);
 
-
-
-        // Pass the work offers to the view
 
         return view('livewire.offers-list', [
            'offres'=>$offres,'catigories'=>$catigories

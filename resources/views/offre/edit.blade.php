@@ -137,7 +137,7 @@
 
             <option  disabled selected  class="text-gray-400" ><p>{{__('Select  Category')}}</p></option>
             @foreach($catigories as $catigory)
-                <option class="text-gray-400 " value={{$catigory->id}}> {{$catigory->name}}</option>
+                <option class="text-gray-400 " value={{$catigory->id}}  {{ $catigory->id == $offre->category_id ? 'selected' : '' }}> {{$catigory->name}}</option>
                 @endforeach
             </select> </div>
         <div>
@@ -212,10 +212,25 @@
             <x-input-error :messages="$errors->get('website')" class="mt-2" />
         </div>
 
-        <div>
+        <div class="flex">
+            <div>
             <x-input-label for="image" :value="__('image')" />
-            <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" accept=".jfif,.jpg,.png,.svg" :value="old('image')"  autofocus autocomplete="image" />
+            <x-text-input id="image" class="mt-1 block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-blue-700
+                                  hover:file:bg-blue-100" type="file" name="image" accept=".jfif,.jpg,.png,.svg,.webp" :value="old('image')"  autofocus autocomplete="image" />
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            </div>
+                <div className="mb-2">
+                    <p className="text-sm text-gray-600">Current Image:</p>
+                    <img
+                        src={{{$offre->image? asset('storage/' . $offre->image) : asset('/images/no-image.png')}}}
+                        alt="Current product"
+    class="h-20 w-20"
+                    />
+                </div>
         </div>
         <script>
             document.getElementById('image').addEventListener('change', function(event) {
@@ -246,7 +261,7 @@
         <div class="lg:grid lg:grid-cols-3 sm:grid-cols-2">
             @foreach ($tools as $tool)
               <div class="flex items-center">
-                <input type="checkbox" name="tools[]" id="tool-{{ $tool->id }}" value="{{ $tool->path }}" class="mr-2">
+                <input type="checkbox" name="tools[]" id="tool-{{ $tool->id }}" value="{{ $tool->id }}" class="mr-2"   {{ $selectedTools->pluck('id')->contains($tool->id) ? 'checked' : '' }}>
                 <label for="tool-{{ $tool->id }}">{{ $tool->name }}</label>
               </div>
             @endforeach
@@ -410,8 +425,8 @@
                 zoom: 8
             });
 
-            const lat={{ $offre->latitude }};
-            const lng= {{ $offre->longitude }} ;
+            const lat={{ $offre->latitude ?? 35.93790606 }};
+            const lng= {{ $offre->longitude ?? 4.6557431}} ;
             marker = new google.maps.Marker({
                   //  position: { {{ $offre->latitude }},{{ $offre->longitude }}},
                     position: { lat,lng },

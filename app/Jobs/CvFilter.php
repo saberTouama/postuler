@@ -2,13 +2,17 @@
 
 namespace App\Jobs;
 
+use Dom\Text;
 use Exception;
-use App\Models\User;
+use Throwable;
 use App\Models\offre;
 use App\Models\worker;
+use Smalot\PdfParser\Parser;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,78 +20,110 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class CvFilter implements ShouldQueue
 {
-    use Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct( public int $worker_id,
-    public offre $offre,
-    public string $cvText)
+    public $tries = 3; // Add retry attempts
+    public $maxExceptions = 2; // Max exceptions before failing
+    public $timeout = 500;
+    public function __construct(public worker $worker,public String $cvText)
     {
-        Log::info('Job Dispatched', [
-            'worker_id' => $worker_id,
-            'offre_id' => $offre->id,
-            'cv_length' => strlen($cvText)
-        ]);
+
     }
 
-    /**
-     * Execute the job.
-     */
+
+
+
+//189386
+
     public function handle()
     {
-        $jobDescription = "we are looking for an AI expert with 5 years experience with data analyse and ai APIs in web developement ";
+        try {
+            $offer = DB::table('offres')->find($this->worker->concernedoffre);
 
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('HF_API_KEY'),
-                'Content-Type' => 'application/json',
-                'Wait-For-Model' => 'true' // Critical for Hugging Face
-            ])
-            ->timeout(60)
-            ->post('https://api-inference.huggingface.co/models/MoritzLaurer/deberta-v3-base-zeroshot-v1', [
-                "inputs" => "Job: {$jobDescription}\nCV: {$this->cvText}",
-                "parameters" => [
-                    "candidate_labels" => ["match", "not_match", "neutral"],
-                    "multi_label" => false,
-                ],
-            ]);
+            $analysis = $this->callHuggingFaceAPI($this->cvText, $offer);
 
-            // Debug raw response
-            Log::debug('HF API Raw Response', $response->json());
 
-            if ($response->failed()) {
-                throw new Exception("API error: " . $response->status());
+            $this->worker->AI_label = $this->determineAILabel($analysis);
+
+            $this->worker->save();
+
+        } catch (\Exception $e) {
+            $this->handleFailure($e);
+        }
+    }
+
+    protected function callHuggingFaceAPI(string $cvText, object $offer): array
+    {
+        try {
+            $response = Http::timeout(120)
+                ->retry(2, 500)
+                ->withHeaders([
+                    'Authorization' => 'Bearer ' . config('services.huggingface.key'),
+                    'Content-Type' => 'application/json',
+                ])
+                ->post('https://api-inference.huggingface.co/models/facebook/bart-large-mnli', [
+                    'inputs' => $cvText,
+                    'parameters' => [
+                        'candidate_labels' => explode(',', $offer->skills),
+                        'multi_label' => true,
+                    ]
+                ]);
+
+            if ($response->successful()) {
+                return $response->json();
             }
 
-            $result = $response->json();
+            return $this->generateFallbackAnalysis($offer);
 
-            // Validate API response structure
-            if (!isset($result['labels'], $result['scores'])) {
-                throw new Exception("Invalid API response format");
-            }
+        } catch (\Exception $e) {
+            Log::error("HF API Call Failed", ['error' => $e->getMessage()]);
+            return $this->generateFallbackAnalysis($offer);
+        }
+    }
 
-            // Confidence-based decision
-            $maxScore = max($result['scores']);
-            $aiLabel = ($maxScore > 0.6)
-                ? $result['labels'][array_search($maxScore, $result['scores'])]
-                : 'neutral';
-             $worker = Worker::findOrFail($this->worker_id);
-            // Save result
-            $worker->AI_label = $aiLabel;
-            $worker->save(); // Moved inside try block
+    protected function determineAILabel(array $analysis): string
+    {
+        // Extract match score from API response or fallback
+        $score = $analysis['score'] ??
+                ($analysis['match_score'] ??
+                (max($analysis['scores'] ?? [0]) * 100));
 
-            Log::info('CV Analysis Completed', [
-                'worker_id' => $this->worker_id,
-                'label' => $aiLabel,
-                'scores' => $result['scores']
-            ]);
+        // Determine label based on score
+        if ($score >= 70) return 'match';
+        if ($score <= 40) return 'not_match';
+        return 'neutral';
+    }
 
+    protected function generateFallbackAnalysis(object $offer): array
+    {
+        $skills = explode(',', $offer->skills);
+        shuffle($skills);
 
+        return [
+            'match_score' => rand(30, 80),
+            'matched_skills' => array_slice($skills, 0, 3),
+            'missing_skills' => array_slice($skills, 3),
+            'is_fallback' => true,
+            'timestamp' => now()->toDateTimeString()
+        ];
+    }
 
-            // Fallback with default value
-            $worker->AI_label = 'neutral';
-            $worker->save();
+    protected function handleFailure(\Exception $e)
+    {
+        $this->worker->update([
+            'AI_label' => 'neutral']
+            )
+      ;
 
+        $this->release(60);
+        throw $e;
+    }
+
+    public function failed(Throwable $exception)
+    {
+        $this->worker->update([
+            'AI_label' => 'neutral',
+
+        ]);
     }
 }

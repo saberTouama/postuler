@@ -120,25 +120,7 @@ function cosineSimilarity($vecA, $vecB) {
 
 
         $cvPath = $request->file('cv')->store('cvs', 'public');
-$parser = new Parser();
-$pdf = $parser->parseFile(storage_path("app/public/{$cvPath}"));
-$cvText = $pdf->getText();
-$jobDescription = "we are looking for an AI expert with 5 years experience with data analyse and ai APIs in web developement ";
 
-// Debug: Verify CV text extraction
-Log::debug('Extracted CV Text (First 500 chars):', ['text' => substr($cvText, 0, 500)]);
-
-// Clean CV text
-$cvText = preg_replace('/[^\w\s.-]/', ' ', $cvText);
-$cvText = substr($cvText, 0, 3000);
-
-
-// Returns: perfect_match/good_match/partial_match/no_match
-
-
-
-
-    // Step 5: Create and save the Worker
     $worker = new Worker();
     $worker->email = $request->Cemail;
     $worker->name = $request->Cname;
@@ -146,38 +128,20 @@ $cvText = substr($cvText, 0, 3000);
     $worker->cv_path = $cvPath;
     $worker->concernedoffre = $request->concernedoffre;
     $worker->user_id = $request->user_id;
-    //$worker->AI_label = $aiLabel;
+    $worker->phone=$request->phone;
     $worker->save();
+
+    $parser = new Parser();
+$pdf    = $parser->parseFile(storage_path('app/public/' . $worker->cv_path));
+$text   = $pdf->getText();
+
     CvFilter::dispatch(
-        $worker->id,
-        Offre::find($request->concernedoffre),
-        $cvText
+        $worker,$text
+
     )->onQueue('cv-processing');
        return redirect()->back()->with('success','your application created seccessfuly');
     }
-    public function applyForOffer(Request $request)    {
-        // Validate the incoming request data
-       $request->validate([
-            'worker_id' => 'required|exists:workers,id',
-            'offre_id' => 'required|exists:offres,id',        ]);
-        // Find the worker and work offer
-       /* $work_offre=new offreworker();
-        $worker = Worker::find($request->worker_id);
-        $offre_id = $request->offre_id;
-        $work_offre->offre_id = 88;
-        $work_offre->worker_id = 18;
-        $work_offre->save();*/
-        $work_offre = offreworker::find(6);
 
-        $work_offre->offre_ids()->createMany([
-    ['offre_id' => 55],
-
-]);
-        // Attach the worker to the work offer
-       // $worker->offres()->attach($offre_id);
-        // Redirect or return a response
-        return redirect()->back()->with('success', 'You have successfully applied for the work offer.');
-    }
     /**
      * Display the specified resource.
      */
@@ -258,6 +222,9 @@ $cvText = substr($cvText, 0, 3000);
         $candidat->save();
         $user=User::find($candidat->user_id);
         $offre=$candidat->offre;
+        if($candidat->phone)
+        Notification::route('vonage', $candidat->phone)
+        ->notify(new CandidateAccepted($offre));
         $user->notify(new CandidateAccepted($offre));
         return redirect()->back();
 

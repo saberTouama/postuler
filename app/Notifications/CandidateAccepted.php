@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\VonageMessage;
 
 class CandidateAccepted extends Notification
 {
@@ -28,9 +29,18 @@ class CandidateAccepted extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['vonage','database'];
     }
 
+     public function toVonage($notifiable)
+    {
+        return (new VonageMessage)
+                    ->content('you are accepted in the offer '.$this->offer->titre                );
+    }
+    public function routeNotificationForVonage()
+{
+     return '213675518700';
+}
     /**
      * Get the mail representation of the notification.
      */

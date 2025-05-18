@@ -1,4 +1,5 @@
 <div>
+    @use('App\Models\tool')
     <x-app-layout>
     <style>
         img:hover {
@@ -102,7 +103,7 @@
 
 
 
- <div id="work-offers-list" class="mx-4 colored lg:grid lg:grid-cols-4 gap-4 space-y-4 md:space-y-0 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5  grid grid-cols-auto-fit " wire:poll.1s>
+ <div id="work-offers-list" class="mx-4 py-10 px-10 dark:bg-gray-700 bg-violet-100 colored lg:grid lg:grid-cols-4 gap-4 space-y-4 md:space-y-0 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5  grid grid-cols-auto-fit " wire:poll.1s>
 
       @foreach($offres as $offre)
 
@@ -111,26 +112,33 @@
 
             <div id="{{$offre->id}}" class="" style="display: inline; margin-left: 5px; border-radious:12px;">
 
-                @php $images = json_decode($offre->tools,true );
-                  if (is_string($images)) {
-                    $images = [$images]; // Wrap the string in an array
-                } elseif (is_null($images)) {
-                    $images = []; // Set to an empty array if null
-                }  @endphp
-                @if($images)
+                @php      $tools = DB::table('tools')
+                ->join('offer_tools', 'tools.id', '=', 'offer_tools.tool_id')
+                ->where('offer_tools.offer_id', $offre->id)
+                ->select('tools.*') // Select only tool fields
+                ->get(); @endphp
+
                 <div class="lg:grid lg:grid-cols-4">
-                    @php $count = 0; @endphp
 
-                    @foreach ($images as $image)
-                        @if ($count >= 4)
-                            @break
+
+                 @php $count = 0; @endphp
+                 @foreach ($tools as $tool )
+                        @if($tool && $tool->path)
+                            <img src="{{ asset('storage/' . $tool->path) }}" alt="Tool image" class="w-7 h-7" title="{{$tool->name}}">
+                        @else
+                            <!-- Optional: placeholder if tool/image is missing -->
+                            <div class="bg-gray-200 w-full aspect-square flex items-center justify-center">
+                                <span class="text-gray-500">No image</span>
+                            </div>
                         @endif
+                        @php $count++; @endphp
+                        @if ($count >= 4)
+                        @break
+                    @endif
+                    @endforeach
 
-               <img class="w-10 mr-3 mb-3"
-                    src="{{$image ? asset('storage/' . $image) : asset('/images/no-image.png')}}" alt="" style="border-radius: 50%"/>
-                    @php $count++; @endphp
-           @endforeach </div>
-           @endif
+
+                        </div>
 
 
         </div>

@@ -30,7 +30,7 @@
 
         @inertia
 
-        <div id="page" class="min-h-screen bg-violet-100 dark:bg-slate-800  " >
+        <div id="page" class="min-h-screen  dark:bg-slate-800  " >
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -56,10 +56,10 @@
               <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                 <li >
-                  <div class="flex items-center gap-2">
-                  <span class="font-bold uppercase text-white  items-center flex">
+                  <div class="flex items-center  gap-2">
+                  <span class="font-bold uppercase  text-gray-500 items-center flex">
 
-                   <svg class="w-10 h-10 text-white" xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                   <svg class="w-10 h-10 " xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
                     <path fill="currentColor" d="M22.62 3.783c-1.115-1.811-4.355-2.604-6.713-.265c-.132.135-.306.548.218 1.104c1.097 1.149 6.819 7.046 4.702 12.196c-1.028 2.504-3.953 2.073-5.052-2.076a23.2 23.2 0 0 1-.473-9.367s.105-.394-.065-.52c-.117-.087-.305-.05-.547.33c-.06.096-.048.076-.106.178l-.003.002c-1.622 2.688-3.272 5.874-4.049 7.07c.38-1.803-.101-4.283-.85-6.359l-.142-.375c-.692-1.776-1.524-2.974-1.776-3.245c-.03-.033-.105-.094-.353-.094H.398c-.49 0-.448.412-.293.561c1.862 2.178 7.289 10.343 4.773 18.355c-.194.619.11.944.612.305c2.206-2.81 4.942-7.598 6.925-11.187c-.437 1.245-.822 2.63-1.028 4.083c-.435 3.064.487 5.37 1.162 6.58c.345.619.803.998 1.988.824c6.045-.885 8.06-6.117 8.805-8.77c1.357-4.839.363-7.568-.722-9.33"></path>
                   </svg>elcome {{auth()->user()->name}}  </span> </div>
                 </li>
@@ -151,7 +151,7 @@
 
               <div class="relative w-full max-w-2xl mx-4 rounded-lg shadow-lg my-md mt-xxl"  >
 
-                <form  method="get" class="right-10 my-5  autofill autocomplete  relative   border border-transparent bg-clip-border rounded-md w-full before:absolute before:-inset-0.5 before:-z-10 before:rounded-[inherit] after:absolute after:-inset-px after:-z-20 after:rounded-[inherit] after:blur-sm mx-auto before:bg-input-gradient after:bg-input-gradient  max-w-[464px] bg-black"  action="{{route('mailing')}}">
+                <form  method="get" class="right-10 my-5 h-10 autofill autocomplete  relative   border border-transparent bg-clip-border rounded-md w-full before:absolute before:-inset-0.5 before:-z-10 before:rounded-[inherit] after:absolute after:-inset-px after:-z-20 after:rounded-[inherit] after:blur-sm mx-auto before:bg-input-gradient after:bg-input-gradient  max-w-[464px] bg-black"  action="{{route('mailing')}}">
 
                     <input class=" button-1/3 top-1/3 remove-autocomplete-styles h-full w-full appearance-none whitespace-nowrap rounded border-none bg-transparent pl-5 text-lg !leading-none text-white bg-slate-300  placeholder-white outline-none sm:pr-24 sm:text-base pr-32" name="not_email" type="email" placeholder="Your email..." autocomplete="not_email" value="" required><button class="hover:bg-green-400 inline-flex items-center justify-center text-center whitespace-nowrap rounded outline-none transition-[colors, opacity] duration-200 uppercase font-medium !leading-none h-8 px-5 text-xs bg-white text-black hover:bg-gray-10 absolute top-1/2 -translate-y-1/2 right-3" name="subscribe" type="submit"><span class="relative z-30 inline-flex items-center justify-center"><span class="sm:sr-only text-xs" style="opacity: 1; will-change: opacity;">Subscribe</span><span class="hidden sm:block" style="opacity: 1; will-change: opacity;"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="ml-1.5 h-6" aria-hidden="true"><path fill="#000" d="M23.576 11.999a1.5 1.5 0 0 0-.858-1.354L2.566 1.099A1.498 1.498 0 0 0 .502 2.927l2.433 7.295L13.59 12 2.933 13.776.5 21.07a1.5 1.5 0 0 0 .363 1.535l.067.062a1.5 1.5 0 0 0 1.638.233l20.152-9.545c.522-.249.856-.778.856-1.357"></path></svg></span></span></button> <x-input-error :messages="$errors->get('not_email')" class="mt-2" /> </form> </div> </div>
             </div>
@@ -201,17 +201,7 @@
 
         <script>
 
-          $("p").on({
-            mouseenter: function(){
-              $(this).css("background-color", "lightgray");
-            },
-            mouseleave: function(){
-    $(this).css("background-color", "");
-  },
-            click: function(){
-              $(this).css("background-color", "red");
-            }
-          });
+
 
             @auth
              $('#notify').click(function() {
@@ -302,8 +292,3 @@
     </body>
 </html>
 
-<x-modal name="send-email"  class="fixed inset-0 z-50 flex items-center justify-center  mt-xxl overflow-y-auto bg-black bg-opacity-50">
-    <div class="relative w-full max-w-2xl mx-4  rounded-lg shadow-lg my-md mt-xxl">
-    <form  method="get" class=" right-10 my-5  autofill autocomplete  relative   border border-transparent bg-clip-border rounded-md w-full before:absolute before:-inset-0.5 before:-z-10 before:rounded-[inherit] after:absolute after:-inset-px after:-z-20 after:rounded-[inherit] after:blur-sm mx-auto before:bg-input-gradient after:bg-input-gradient  max-w-[464px] bg-black"  action="{{route('mailing')}}">
-        <input class=" button-1/3 top-1/3 remove-autocomplete-styles h-full w-full appearance-none whitespace-nowrap rounded border-none bg-transparent pl-5 text-lg !leading-none text-white placeholder-white outline-none sm:pr-24 sm:text-base pr-32" name="email" type="email" placeholder="Your email..." autocomplete="email"   id="searchInput"  required  >    <button class="hover:bg-green-400 inline-flex items-center justify-center text-center whitespace-nowrap rounded outline-none transition-[colors, opacity] duration-200 uppercase font-medium !leading-none h-8 px-5 text-xs bg-white text-black hover:bg-gray-10 absolute top-1/2 -translate-y-1/2 right-3" name="subscribe" type="submit"><span class="relative z-30 inline-flex items-center justify-center"><span class="sm:sr-only text-xs" style="opacity: 1; will-change: opacity;">Subscribe</span><span class="hidden sm:block" style="opacity: 1; will-change: opacity;"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="ml-1.5 h-6" aria-hidden="true"><path fill="#000" d="M23.576 11.999a1.5 1.5 0 0 0-.858-1.354L2.566 1.099A1.498 1.498 0 0 0 .502 2.927l2.433 7.295L13.59 12 2.933 13.776.5 21.07a1.5 1.5 0 0 0 .363 1.535l.067.062a1.5 1.5 0 0 0 1.638.233l20.152-9.545c.522-.249.856-.778.856-1.357"></path></svg></span></span></button> <x-input-error :messages="$errors->get('email')" class="mt-2" /></form> </div>
-</x-modal>

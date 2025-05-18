@@ -13,6 +13,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "laravel/vonage-notification-channel": "^3.3",
         "league/flysystem": "*",
         "livewire/livewire": "^3.5",
         "mailersend/laravel-driver": "*",
@@ -21,7 +22,8 @@
         "smalot/pdfparser": "^2.12",
         "spatie/laravel-permission": "^6.16",
         "symfony/http-client": "*",
-        "symfony/mailgun-mailer": "*"
+        "symfony/mailgun-mailer": "*",
+        "vonage/client": "^4.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

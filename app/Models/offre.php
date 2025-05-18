@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\tool;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +25,12 @@ class offre extends Model
     {
         return $this->belongsToMany(Worker::class, 'offreworker');
     }
-    public function catigory(){
-        return $this->belongsTo(Catigory::class, 'catigory_id');
+    public function category(){
+        return $this->belongsTo(Category::class, 'catigory_id');
+    }
+    // In Offre.php model
+    public function tools()
+    {
+        return $this->belongsToMany(Tool::class, 'offer_tools', 'offer_id', 'tool_id');
     }
 }

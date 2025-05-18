@@ -1,18 +1,23 @@
 <?php
 
+use Vonage\Client;
+use App\Models\offre;
 use App\Events\MyEvent;
 use App\Models\workowner;
+use Vonage\SMS\Message\SMS;
 use App\Http\Middleware\admin;
 use App\Http\Middleware\isworkowner;
+use Vonage\Client\Credentials\Basic;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToolController;
+use App\Notifications\CandidateAccepted;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\OffreController;
+
 use App\Http\Controllers\EmailController2;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
-
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -23,6 +28,16 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+
+Route::get('/send-test-sms', function () {
+    $offer = offre::latest()->first();
+
+    Notification::route('vonage', '123675518700')
+        ->notify(new CandidateAccepted($offer));}
+    );
+
+
+
 Route::get('/test-cv-hf', function () {
     $cv = <<<EOT
 John Doe is a backend developer with 5 years of experience in PHP, Laravel, MySQL, and RESTful APIs.

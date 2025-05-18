@@ -13,7 +13,7 @@
         </div>
     @php $id=auth()->user()->id;@endphp
 
-  <form method="POST"  class="mr-20 ml-20 bg-blue-300 sm:rounded-lg  z-50 w-screen  sm:w-auto px-4  shadow-2xl ring-4"  action="{{route('offre.store')}}" enctype="multipart/form-data" >
+  <form method="POST"  class="mr-20 ml-20 bg-blue-100 sm:rounded-lg  z-50   px-4  shadow-2xl ring-4  inset-0 overflow-y-auto  py-6"  action="{{route('offre.store')}}" enctype="multipart/form-data" >
         @csrf
      <div class="lg:grid lg:grid-cols-2 sm:grid-cols-1  justify-between gap-10">
         <div>
@@ -103,7 +103,12 @@
 
         <div>
             <x-input-label for="image" :value="__('image')" />
-            <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" accept=".jfif,.jpg,.png,.svg" :value="old('image')"  autofocus autocomplete="image" />
+            <x-text-input id="image" class="mt-1 block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-blue-700
+                                  hover:file:bg-blue-100" type="file" name="image" accept=".jfif,.jpg,.png,.svg,.jpeg" :value="old('image')"  autofocus autocomplete="image" />
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
         <script>
@@ -135,7 +140,7 @@
         <div class="lg:grid lg:grid-cols-3 sm:grid-cols-2">
             @foreach ($tools as $tool)
               <div class="flex items-center">
-                <input type="checkbox" name="tools[]" id="tool-{{ $tool->id }}" value="{{ $tool->path }}" class="mr-2">
+                <input type="checkbox" name="tools[]" id="tool-{{ $tool->id }}" value="{{ $tool->id }}" class="mr-2">
                 <label for="tool-{{ $tool->id }}">{{ $tool->name }}</label>
               </div>
             @endforeach

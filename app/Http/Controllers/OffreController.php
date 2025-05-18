@@ -41,7 +41,7 @@ class OffreController extends Controller
     {
         // Retrieve all work offers from the database
 
-        $catigories=category::all();
+        $catigories=category::select('id', 'name')->get();
         if ($request->has('category') && $request->category != '') {
 
             $offres=Offre::where('category_id', $request->category)->paginate(10);
@@ -53,7 +53,7 @@ class OffreController extends Controller
             $offres=Offre::where('lieu', $request->region)->paginate(10);
             return view('offre.home', ['offres'=>$offres,'catigories'=>$catigories]);
         }
-        $offres = offre:: where('state','published')->orderBy('created_at', 'desc')->paginate(10);
+        $offres = offre::select('titre','lieu','company','image','created_at','updated_at')->where('state','published')->orderBy('created_at', 'desc')->paginate(10);
 
 
 
@@ -137,51 +137,30 @@ public function home(){
     }
 
 
-    public function store(StoreoffreRequest $request)
+    public function store(Request $request)
     {{
 
-          /*  $request->validate([
+           $request->validate([
                 'titre' => 'sometimes|string|max:255',
                 'company' => 'string|max:255',
                 'lieu' => 'string|max:255',
                 'nb_post' => 'integer|min:1',
-
+                'workowner'=>'required|exists:users,id',
                 'website'=>'url',
-                'image' => 'image|mimes:jpg,jfif,png|max:1024'
+                'image' => 'image|mimes:jpg,jfif,png,jpeg|max:1024'
 
-            ]);*/
+            ]);
+            if ($request->hasFile('image')) {
+                // Store the file in the 'public/cv' directory
+                $imagePath = $request->file('image')->store('images', 'public');
+
+                $request->merge(['imagePath' => $imagePath]);
+
+            }
 
 
-         //   $imagePath = null;
-        if ($request->hasFile('image')) {
-            // Store the file in the 'public/cv' directory
-            $imagePath = $request->file('image')->store('images', 'public');}
-            $offre = new Offre();
-            $offre->site=$request->input('website');
-            $offre->image= $imagePath;
-            $offre->titre = $request->input('titre');
-            $offre->company = $request->input('company');
-            $offre->lieu= $request->input('lieu');
-            $offre->nb_post = $request->input('nb_post');
-            $offre->description = $request->input('description');
-            $offre->workowner= $request->input('workowner');
-            $offre->skills = $request->skills;
-            $offre->works = $request->works;
-            $offre->points=$request->points;
-            $offre->tool1= $request->tool1;
-            $offre->tool2= $request->tool2;
-            $offre->tool3= $request->tool3;
-            $offre->category_id= $request->category;
-            $offre->latitude = $request->latitude;
-            $offre->longitude = $request->longitude;
-            $offre->tools = json_encode($request->tools);
-
-            Gate::authorize('create',$offre);
-
-            $offre->save();
-            $userId=Auth::user()->id;
-           sendEmail::dispatch($offre)->onQueue('emails-sending');;
-           event(new JobOfferCreated($offre));
+           sendEmail::dispatch($request->except('image'))->onQueue('emails-sending');;
+          // event(new JobOfferCreated($offre));
 
 
         }
@@ -197,8 +176,15 @@ public function home(){
     {
         $chirps=Chirp::where('offer_id',$offre->id)->get();
 
-        return view('offre.detaille', [
-            'offre' => $offre,'chirps' => $chirps,
+
+
+$tools = DB::table('tools')
+    ->join('offer_tools', 'tools.id', '=', 'offer_tools.tool_id')
+    ->where('offer_tools.offer_id', $offre->id)
+    ->select('tools.*')
+    ->get();
+           return view('offre.detaille', [
+            'offre' => $offre,'chirps' => $chirps,'tools'=>$tools
         ]);
     }
 
@@ -211,7 +197,13 @@ public function home(){
 
         $tools=tool::all();
         $catigories=category::all();
-        return view('offre.edit', compact('catigories','tools','offre'));
+        $selectedTools = DB::table('tools')
+        ->join('offer_tools', 'tools.id', '=', 'offer_tools.tool_id')
+        ->where('offer_tools.offer_id', $offre->id)
+        ->select('tools.*')
+        ->get();
+
+        return view('offre.edit', compact('catigories','tools','offre','selectedTools'));
     }
 
     /**
@@ -220,7 +212,7 @@ public function home(){
     public function update(Request $request, offre $offre){
 
         $request->validate([
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -250,22 +242,19 @@ public function home(){
             'nb_post' => 'sometimes|integer|min:1',
             'site' => 'sometimes|url',
          // 'image' => 'sometimes|image',
-            'tool1' => 'sometimes|string',
-            'tool2' => 'sometimes|string',
-            'tool3' => 'sometimes|string',
+           // 'tool1' => 'sometimes|string',
+            //'tool2' => 'sometimes|string',
+            //'tool3' => 'sometimes|string',
             'category_id' => 'sometimes|integer',
-            'tools' => 'sometimes|array',
+           // 'tools' => 'sometimes|array',
              'longitude'=>'sometimes',
              'latitude'=>'sometimes'
         ]);
         Gate::authorize('update', $offre);
-
       $offre->update($validated);
-     if($request->tools){      $offre->tools = json_encode($request->tools);}
       $offre->save();
-
+     if($request->tools){     $offre->tools()->sync($request->tools);}
         return redirect()->back();
-
     }
     /**
      * Remove the specified resource from storage.

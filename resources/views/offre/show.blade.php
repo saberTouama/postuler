@@ -8,7 +8,7 @@
    // $workOwnerId = auth()->user()->id;
     @endphp
 
-    <h1>Workers Registered for Your Offers</h1>
+    <h1>Candidates for Your Offers</h1>
     <div class="sm:justify-center items-center pt-6 px-10" style="border-radius: 10px;">
         <table class="w-full bg-white border border-gray-300 text-gray-700 rounded-lg shadow-lg  border-separate">
    <thead class="bg-blue-400">

@@ -21,8 +21,8 @@
             <x-input-label for="Rpassword" :value="__('Password')" />
 
             <x-text-input id="Rpassword" class="block mt-1 w-full"
-                            type="Rpassword"
-                            name="Rpassword"
+                            type="password"
+                            name="password"
                             required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('Rpassword')" class="mt-2" />

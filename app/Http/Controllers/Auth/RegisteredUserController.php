@@ -27,7 +27,14 @@ class RegisteredUserController extends Controller
        [
             'Rname' => ['required', 'string', 'max:255'],
             'Remail' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
-            'Rpassword' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::defaults(),
+
+            Password::min(8)
+            ->mixedCase()
+            ->letters()
+            ->numbers()
+            ->symbols()
+            ->uncompromised()],
             'isworkowner' => 'nullable'
         ]);
         $role = $request->has('isworkowner') ? 'workowner' : 'user';
