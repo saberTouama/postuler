@@ -83,12 +83,11 @@ class CvFilter implements ShouldQueue
 
     protected function determineAILabel(array $analysis): string
     {
-        // Extract match score from API response or fallback
+       
         $score = $analysis['score'] ??
                 ($analysis['match_score'] ??
                 (max($analysis['scores'] ?? [0]) * 100));
 
-        // Determine label based on score
         if ($score >= 70) return 'match';
         if ($score <= 40) return 'not_match';
         return 'neutral';

@@ -68,8 +68,8 @@
                         </td>
                         <td>{{$worker->AI_label}}</td>
                         <td class="py-3 px-4">
-                            <x-danger-button wire:click="confirmDelete({{ $worker->id }});"
-
+                            <x-danger-button id="delete" wire:click="confirmDelete({{ $worker->id }});showConfirmation = true ;"
+                                   x-on:click.prevent="showConfirmation = true ;"
                                 class="text-red-500 hover:underline">
                                 {{ __('Delete ❌') }}
                             </x-danger-button>
@@ -80,44 +80,61 @@
                                     @endforeach
 
 
-                                    <x-danger-button wire:click.prevent="deleteWorker"
-                                        class="fixed ml-4 transition-all duration-300 ease-in-out
-                                          right-10
-                                               enabled:hover:bg-red-700 enabled:hover:shadow-lg
-                                               disabled:hidden
-               disabled:opacity-60 disabled:cursor-not-allowed
-               disabled:bg-gray-400 disabled:text-gray-700
-               disabled:border-gray-400 disabled:hover:shadow-none " :disabled="$deleteDesabled">
-                                        {{ __('Confirm Delete ❌') }}
-                                    </x-danger-button>
+                                   <x-danger-button
+    wire:click.prevent="deleteWorker"
+    class="items-center flex  justify-center    active:translate-y-0
+           disabled:opacity-50 disabled:transform-none disabled:hover:shadow-md
+           disabled:bg-red-600 disabled:cursor-not-allowed"
+    :disabled="$deleteDesabled">
+    {{ __('Confirm Delete') }} <span class="ml-1">🗑</span>
+</x-danger-button>
 
             </tbody>
         </table>
 
         <br><br><br><br><br><br><br><br><br>
 
-<x-modal x-data="" name="confirm-condidat-deletion" >
-<div class="mx-5 my-5">
+<!-- Confirmation Modal (Hidden by Default) -->
+<div x-data="{ showConfirmation: false }">
+<div
+ id="confirm"
+  x-show="deleteDesabled"
+    class="hidden fixed inset-0 z-50  items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
 
+    <!-- Modal Container -->
+    <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Are you sure?</h3>
+        <p class="text-gray-600 mb-6">This action cannot be undone.</p>
 
-
-
-
-    <div class="mt-6 flex justify-end">
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-danger-button  wire:click="deleteWorker" class="ms-3" >
-            {{ __('Delete Candidate') }}
+        <!-- Confirmation Button (Large & Destructive) -->
+        <x-danger-button
+            wire:click.prevent="deleteWorker"
+            class="w-full py-3 px-6 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg
+                   shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02]">
+            {{ __('Permanently Delete') }} <span class="ml-2">🗑</span>
         </x-danger-button>
+
+        <!-- Cancel Button -->
+        <button
+            :click="$deleteDesabled = true"
+            class="mt-3 w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors">
+            Cancel
+        </button>
     </div>
 </div>
-</x-modal>
+</div>
 </div>
 <div class="mt-8">
     {{ $workers->links() }}
 </div>
+ <script>
+   $("#delete").click(function(){
+
+     $("#confirm").css('display','flex');
+   });
+
+
+       </script>
     </x-app-layout>
 
 

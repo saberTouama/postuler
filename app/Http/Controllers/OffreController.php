@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -53,8 +54,11 @@ class OffreController extends Controller
             $offres=Offre::where('lieu', $request->region)->paginate(10);
             return view('offre.home', ['offres'=>$offres,'catigories'=>$catigories]);
         }
-        $offres = offre::select('titre','lieu','company','image','created_at','updated_at')->where('state','published')->orderBy('created_at', 'desc')->paginate(10);
+        $offres = Cache::remember('all_offers', now()->addMinutes(10), function () {
 
+
+       offre::select('titre','lieu','company','image','created_at','updated_at')->where('state','published')->orderBy('created_at', 'desc')->paginate(10);
+        });
 
 
         // Pass the work offers to the view
@@ -62,7 +66,9 @@ class OffreController extends Controller
     }
 
     public function display($id){
-        $offres = Offre::where('workowner',$id)->orderBy('created_at', 'desc')->get();
+
+        $offres= Offre::where('workowner',$id)->orderBy('created_at', 'desc')->paginate(10);
+
 
         return view('offre.youroffres', compact('offres'));
     }
@@ -138,7 +144,7 @@ public function home(){
 
 
     public function store(Request $request)
-    {{
+    {
 
            $request->validate([
                 'titre' => 'sometimes|string|max:255',
@@ -159,11 +165,14 @@ public function home(){
             }
 
 
-           sendEmail::dispatch($request->except('image'))->onQueue('emails-sending');;
+           sendEmail::dispatch($request->except('image'))->onQueue('emails-sending');
           // event(new JobOfferCreated($offre));
 
 
-        }
+
+
+        Cache::forget('all_offers');
+
        // return redirect('/#'.$offre->id);
        return redirect()->back()->with('success','offer created seccessfuly');
     }
@@ -253,6 +262,7 @@ $tools = DB::table('tools')
         Gate::authorize('update', $offre);
       $offre->update($validated);
       $offre->save();
+      Cache::forget('all_offers');
      if($request->tools){     $offre->tools()->sync($request->tools);}
         return redirect()->back();
     }
@@ -278,6 +288,7 @@ public function destroy(Request $request)
       Storage::disk('public')->delete($offre->image);
    }
         $offre->delete();
+        Cache::forget('all_offers');
         return redirect()->back();
     }
 
@@ -293,7 +304,9 @@ public function destroy(Request $request)
     }
 
     public function all(){
-        $offres = Offre::orderBy('created_at', 'desc')->get();
+
+        $offres=cache:: remember('manage-offers',now()->addMinutes(10),function(){
+        return  Offre::orderBy('created_at', 'desc')->paginate(10);});
         return view('offre.admin.manage', compact('offres'));
     }
     public function addEmail($email){
@@ -308,12 +321,14 @@ public function destroy(Request $request)
         $offer->state="canceled";
 
         $offer->save();
+        Cache::forget('all_offers');
         return redirect()->back();
     }
     public function republish($id){
         $offer=offre::find($id);
         $offer->state="published";
         $offer->save();
+        Cache::forget('all_offers');
         return redirect()->back();
 
     }

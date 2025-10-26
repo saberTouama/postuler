@@ -10,4 +10,4 @@
 
 
 --}}
-<img src="{{ asset('images/logo.jpeg') }}" alt="Website Logo" width="80" height="25" class="rounded-full">
+<img src="{{ asset('images/logo.jpeg') }}" alt="Website Logo" width="60" height="25" class="rounded-full">

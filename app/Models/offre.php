@@ -17,9 +17,9 @@ class offre extends Model
     protected $fillable = ['description',
 'titre', 'company', 'lieu', 'nb_post', 'site','tool1','tool2','tool3','tool4','works','skills','points','longitude','latitude'
     ];
-    public function workowner()
+    public function user()
     {
-        return $this->belongsTo(Workowner::class, 'workowner');
+        return $this->belongsTo(user::class, 'workowner');
     }
     public function workers()
     {

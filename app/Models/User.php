@@ -49,5 +49,8 @@ class User extends Authenticatable{
 {
   return $this->hasMany(Message::class);
 }
+public function offres(){
+    return $this->hasMany(offre::class,'workowner','id');
+}
 
 }

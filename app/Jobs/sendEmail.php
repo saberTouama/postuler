@@ -73,5 +73,7 @@ class sendEmail implements ShouldQueue
     $emails=email::select('email');
     foreach($emails as $email){
     Notification::route('mail', $email)->notify(new OffreNotification($offre));}
+
+
     }
 }

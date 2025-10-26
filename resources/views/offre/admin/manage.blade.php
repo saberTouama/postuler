@@ -138,6 +138,9 @@
 
       @endforeach
     </div>
+    <div class="items-center flex  justify-center h-screen">
+        {{ $offres->links() }}
+   </div>
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
       <form method="post" action="{{ route('offre.destroy') }}" class="p-6">
           @csrf

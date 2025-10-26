@@ -1,6 +1,7 @@
 <?php
 
 use Vonage\Client;
+use App\Models\email;
 use App\Models\offre;
 use App\Events\MyEvent;
 use App\Models\workowner;
@@ -11,9 +12,10 @@ use Vonage\Client\Credentials\Basic;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToolController;
 use App\Notifications\CandidateAccepted;
+use App\Notifications\OffreNotification;
+
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\OffreController;
-
 use App\Http\Controllers\EmailController2;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +31,12 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
+Route::get('/offer mail',function(){
+     $offre = offre::latest()->first();
+  $emails=email::select('email');
+    foreach($emails as $email){
+    Notification::route('mail', $email)->notify(new OffreNotification($offre));}
+});
 Route::get('/send-test-sms', function () {
     $offer = offre::latest()->first();
 

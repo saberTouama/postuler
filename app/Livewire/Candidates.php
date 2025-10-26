@@ -16,6 +16,7 @@ class Candidates extends Component
  public $showModal=false ;
  public function mount()
 {
+
     if (session()->has('offer_id')) {
         $this->offer_id = session('offer_id');
     }
